@@ -3,6 +3,7 @@ version: '3.9'
 services:
   envoy:
     container_name: envoy
+    hostname: envoy
     build:
       context: ./envoy
       dockerfile: ./Dockerfile
@@ -21,6 +22,7 @@ services:
   
   server:
     container_name: server
+    hostname: server
     build:
       context: ./server
       dockerfile: ./Dockerfile
@@ -37,6 +39,7 @@ services:
 
   app:
     container_name: app
+    hostname: app
     build:
       context: ./app
       dockerfile: ./Dockerfile
