@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  envoy:
+    container_name: envoy
+    build:
+      context: ./envoy
+      dockerfile: ./Dockerfile
+    restart: always
+    ports:
+      - "80:8080"
+      - "9901:9901"
+      - "9090:9090"
+      - "10000:10000"
+      - "8050:8050"
+    volumes:
+      - ./envoy/envoy.yaml:/etc/envoy/envoy.yaml
+
+  
+  server:
+    container_name: server
+    build:
+      context: ./server
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./server:/server/
+      - /server/node_modules/
+    restart: always
+    ports:
+      - 5000:5000
+    command: node server.js
+
+  app:
+    container_name: app
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    restart: always
+    volumes:
+      - ./app:/app/
+      - /app/node_modules/
+    stdin_open: true 
+    ports:
+      - 3000:3000
+    command: npm start
+
+
